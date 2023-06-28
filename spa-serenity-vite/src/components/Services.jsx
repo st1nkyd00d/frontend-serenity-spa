@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import ServiceCard from "./cards/ServiceCard";
 import PromoCard from "./cards/PromoCard";
+import TestimonialCard from "./cards/TestimonialCard";
 
 function Servicios() {
     return (
@@ -41,7 +41,7 @@ function Servicios() {
                 </p>
             </section>
 
-            <section className="bg-azul1 flex flex-col items-center pt-5 pb-5">
+            <section className="bg-gradient-to-b from-lightSteelBlue  to-skyBlue  flex flex-col items-center pt-5 pb-5">
                 <PromoCard />
             </section>
 
@@ -54,7 +54,9 @@ function Servicios() {
                 </p>
             </section>
 
-            <section className="bg-azul1 flex flex-col items-center mb-10"></section>
+            <section className="bg-gradient-to-b from-lightSteelBlue  to-skyBlue flex flex-col items-center mb-10">
+                <TestimonialCard />
+            </section>
 
             <Footer />
         </div>

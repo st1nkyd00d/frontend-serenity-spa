@@ -1,71 +1,71 @@
 import React, { createContext, useEffect, useState } from "react";
-const ServicesContext = createContext();
+const PromosContext = createContext();
 
-const ServicesProvider = ({ children }) => {
-    const [services, setServices] = useState([]);
+const PromosProvider = ({ children }) => {
+    const [promos, setPromos] = useState([]);
 
     useEffect(() => {
-        fetchServices();
+        fetchPromos();
     }, []);
 
-    const fetchServices = async () => {
+    const fetchPromos = async () => {
         try {
-            const res = await fetch("http://localhost:3000/obtenerServicios");
+            const res = await fetch("http://localhost:3000/obtenerPromos");
             const data = await res.json();
-            setServices(data);
+            setPromos(data);
         } catch (error) {
             console.log(error);
         }
     };
 
-    const createService = async (service) => {
+    const createPromo = async (promo) => {
         try {
             const token = localStorage.getItem("token");
-            const response = await fetch("http://localhost:3000/crearServicio", {
+            const response = await fetch("http://localhost:3000/crearPromo", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${token}`,
                 },
-                body: JSON.stringify(service),
+                body: JSON.stringify(promo),
             });
 
             const data = await response.json();
 
-            if (data.service) {
-                setServices([...services, data.service]);
+            if (data.promo) {
+                setPromos([...promo, data.promo]);
             }
         } catch (error) {
             console.error("Error al crear el servicio", error);
         }
     };
 
-    const updateService = async (id, updatedService) => {
+    const updatePromo = async (id, updatedPromo) => {
         try {
             const token = localStorage.getItem("token");
-            const response = await fetch(`http://localhost:3000/${id}/actualizarServicio/`, {
+            const response = await fetch(`http://localhost:3000/${id}/actualizarPromo/`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`
                 },
-                body: JSON.stringify(updatedService),
+                body: JSON.stringify(updatedPromo),
             });
 
             const data = await response.json();
 
             if (data.service) {
-                setServices(services.map((service) => (service._id === id ? data.service : service)));
+                setPromos(services.map((promo) => (promo._id === id ? data.promo : promo)));
             }
         } catch (error) {
             console.error("Error al editar el servicio", error);
         }
     };
 
-    const deleteService = async (id) => {
+    const deletePromo = async (id) => {
         try {
             const token = localStorage.getItem("token");
-            const response = await fetch(`http://localhost:3000/${id}/borrarServicio`, {
+            const response = await fetch(`http://localhost:3000/${id}/borrarPromo`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
@@ -75,23 +75,23 @@ const ServicesProvider = ({ children }) => {
 
             const data = await response.json();
 
-            if (data.service) {
-                setServices(services.filter((service) => service._id !== id));
+            if (data.promo) {
+                setPromos(promo.filter((promo) => promo._id !== id));
             }
         } catch (error) {
             console.error("Error al eliminar el servicio", error);
         }
     };
 
-    const serviceContextValue = {
-        services,
-        createService,
-        updateService,
-        deleteService,
+    const promoContextValue = {
+        promos,
+        createPromo,
+        updatePromo,
+        deletePromo,
     };
 
-    return <ServicesContext.Provider value={serviceContextValue}>{children}</ServicesContext.Provider>;
+    return <PromosContext.Provider value={promoContextValue}>{children}</PromosContext.Provider>;
 };
 
-export { ServicesContext };
-export default ServicesProvider;
+export { PromosContext };
+export default PromosProvider;

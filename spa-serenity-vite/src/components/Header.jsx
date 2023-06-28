@@ -3,6 +3,22 @@ import { NavLink } from "react-router-dom";
 import { FaBars, FaTiktok, FaInstagram, FaFacebook, FaMapPin } from "react-icons/fa";
 function Header() {
     const [navbarOpen, setNavbarOpen] = React.useState(false);
+    const [weatherData, setWeatherData] = React.useState(null);
+
+    const apiKey = "5cdbd2a377a9336eac19f923d4c14958";
+    const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=Valera";
+
+    async function checkWeather() {
+        try {
+            const response = await fetch(apiUrl + `&appid=${apiKey}`);
+            const data = await response.json();
+            setWeatherData(data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    checkWeather();
     return (
         <>
             <div className="flex justify-between p-3 bg-lightSteelBlue border-t-2 border-b-2 border-solid border-black w-full">
@@ -10,6 +26,8 @@ function Header() {
                 <div className="flex">
                     <FaMapPin className="text-xl mr-2" />
                     <h3 className="font-Sarabun font-semibold">Valera Centro</h3>
+                    <p className="ml-2">{weatherData ? weatherData.main.temp + "°" : ""}</p>
+
                 </div>
                 <div>
                     <button>
